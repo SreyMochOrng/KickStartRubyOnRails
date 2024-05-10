@@ -1,0 +1,37 @@
+<div class="p-4 sm:ml-64">
+  <div class=" flex justify-between top-0 right-0 m-4">
+    <h1 class="text-3xl font-medium">All Products</h1>
+    <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"><%= link_to 'Create New', new_product_path  %></button>
+  </div>
+  <ul class="list-none">
+    <% @products.each do |p| %>
+          <a href="<%= product_path(p)%>">
+      <li class="bg-gray-200 p-4 rounded-md flex items-center justify-between hover:bg-gray-300 mt-4">
+        <div class="flex items-center">
+            <% if p.image.attached? %>
+              <%= image_tag p.image , style: "width: 128px; height: 128px; border-radius: 6px " %>
+            <% else %>
+              <img src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg" alt="" class=" w-32 h-32 rounded-md">
+            <% end %>
+          
+          <div class="ml-4">
+            <h2 class=" text-xl font-medium"><%= p.name %></h2>
+            <h3 class="text-gray-600 ext-ellipsis" style="max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= p.description %></h3>
+            <% p.categories.each do |category| %>
+              <p class="text-gray-600 text-lg font-medium "><%= category.name %></p>
+            <% end %>
+            <p class=" text-red-600 text-lg font-medium">$ <%= p.price %></p>
+          </div>
+        </div>
+        <div class="flex-row ">
+          <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"><%= link_to 'Edit', edit_product_path(p)  %></button>
+          <%# <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"><%= link_to 'show', product_path(p) </button> %>
+          <%# <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"><%= link_to 'Delete', product_path(p), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}  </button> %>
+          <%= button_to product_path(p), method: :delete, data: { confirm: "Are you sure you want to delete this product?" }, class: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600", form: { class: "inline-block" } do %>
+            Delete
+          <% end %></div>
+      </li>
+    </a>
+  <% end %>
+</ul>
+</div>

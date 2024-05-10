@@ -1,0 +1,21 @@
+<div  class="p-4 sm:ml-64">
+  <div class=" flex justify-between top-0 right-0 m-4">
+    <h1 class="text-3\xl font-medium">All Categories</h1>
+    <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"><%= link_to 'Create New', new_category_path  %></button>
+  </div>
+  <ul class="list-none mb-4">
+    <% @categories.each do |category| %>
+    <a href="<%= category_path(category) %>">
+      <li class="bg-gray-200 p-4 rounded-md flex items-center justify-between hover:bg-gray-300 mt-4">
+        <span class="text-lg"><%= category.name %></span> 
+        <div class="flex-row ">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"><%= link_to 'Edit', edit_category_path(category)  %></button>
+            <%# <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"><%= link_to 'show', product_path(p) </button> %>
+            <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"><%= link_to 'Delete', category_path(category), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}  %></button>
+          </div>
+     
+      </li>
+      </a>
+    <% end %>
+  </ul>
+</div>

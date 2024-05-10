@@ -1,0 +1,17 @@
+<%= form_with model: category, local: true do |form| %>
+  <div class="p-4 sm:ml-64">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold"><%= category.new_record? ? 'Create New Product' : 'Edit Product' %></h2>
+      <%= form.submit category.new_record? ? 'Create' : 'Update', class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
+    </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <%= form.label :name, class: "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" do %>
+          Category Name
+        <% end %>
+        <%= form.text_field :name, class: "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", placeholder: "Category Name" %>
+      </div>
+      
+    </div>
+  </div>
+<% end %>
