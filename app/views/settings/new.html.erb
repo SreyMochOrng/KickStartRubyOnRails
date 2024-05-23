@@ -1,0 +1,61 @@
+<div class="p-4 sm:ml-64">
+  <h1 class="text-2xl font-bold mb-6">Variants Option Value</h1>
+  <%= form_with url: settings_path, method: :post, local: true, id: "variantsForm", class: "bg-white p-6 rounded-lg shadow-md" do %>
+    <div class="mb-4">
+      <label for="option_type" class="block font-bold mb-2">Option Type (Select an existing or Enter new)</label>
+      <div class="flex">
+        <%= select_tag 'option_type', options_from_collection_for_select(@optionTypes, 'id', 'name', prompt: 'Select an option type'), class: 'bg-gray-200 border-gray-300 rounded-l-md px-4 py-2 w-full', id: 'option_type', name: 'option_type' %>
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="option_value" class="block font-bold mb-2">Option Value</label>
+      <%= text_field_tag 'option_value', nil, placeholder: "Enter an option value", class: 'bg-gray-200 border-gray-300 rounded-md px-4 py-2 w-full', id: 'option_value', name: 'option_value' %>
+    </div>
+    <%= submit_tag 'Create Variants Option Value', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+  <% end %>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const optionTypeDropdown = document.getElementById('optionType');
+    const newOptionTypeInput = document.getElementById('newOptionType');
+
+    newOptionTypeInput.addEventListener('input', function() {
+      if (newOptionTypeInput.value.trim().length > 0) {
+        optionTypeDropdown.disabled = true;
+        optionTypeDropdown.dataset.newType = 'true';
+      } else {
+        optionTypeDropdown.disabled = false;
+        optionTypeDropdown.dataset.newType = 'false';
+      }
+    });
+
+    // Handle form submission
+    const form = document.getElementById('variantsForm');
+    form.addEventListener('submit', (event) => {
+      const optionType = optionTypeDropdown.value;
+      const newOptionType = newOptionTypeInput.value.trim();
+      const optionValue = document.getElementById('optionValue').value.trim();
+
+      // Validate the form inputs
+      if (!optionType && !newOptionType) {
+        alert('Please select an option type or enter a new one.');
+        event.preventDefault();
+        return;
+      }
+      if (!optionValue) {
+        alert('Please enter an option value.');
+        event.preventDefault();
+        return;
+      }
+
+      // Disable optionType field if newOptionType is provided to ensure correct data submission
+      if (newOptionType) {
+        optionTypeDropdown.disabled = true;
+      } else {
+        optionTypeDropdown.disabled = false;
+      }
+
+      // Submit the form
+    });
+  });
+</script>

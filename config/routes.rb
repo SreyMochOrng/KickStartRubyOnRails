@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
  
   devise_for :users
+
   root 'home#index'
 
   resources :products
   resources :categories
   resources :settings
-  
+  resources :variants
+  resources :carts, only: [:show] do
+    resources :cart_items, only: [:create, :update, :destroy]
+  end
   # get '/products', to: 'products#index'
   # get '/products/new', to: 'products#new'
   # post '/products', to: 'products#create'

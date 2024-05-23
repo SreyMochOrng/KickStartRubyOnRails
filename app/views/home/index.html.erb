@@ -6,19 +6,19 @@
           <h2 class="text-2xl font-bold text-gray-900">Collections</h2>
           <div class="mt-6 space-y-12 lg:grid lg:grid-cols-4 lg:gap-x-6 lg:space-y-0">
             <% @categories.each do |category| %>
-            <a href="<%= %>">
-              <div class="group relative">
-                <div class="relative h-80 overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
-                  <img src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg" alt="Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug." class="h-full w-full object-cover object-center">
+              <a href="<%= %>">
+                <div class="group relative">
+                  <div class="relative h-80 overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg" alt="Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug." class="h-full w-full object-cover object-center">
+                  </div>
+                  <h3 class="mt-6 text-sm text-gray-500">
+                    <a href="#">
+                      <span class="absolute inset-0"></span>
+                      Desk and Office
+                    </a>
+                  </h3>
+                  <p class="text-base font-semibold text-gray-900"><%= category.name %></p>
                 </div>
-                <h3 class="mt-6 text-sm text-gray-500">
-                  <a href="#">
-                    <span class="absolute inset-0"></span>
-                    Desk and Office
-                  </a>
-                </h3>
-                <p class="text-base font-semibold text-gray-900"><%= category.name %></p>
-              </div>
               </a>
             <% end %>
           </div>
@@ -33,21 +33,32 @@
             <h2 class="text-2xl font-bold tracking-tight text-gray-900">Base Proudcts</h2>
             <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
               <% @products.each do |product| %>
-                <div class="group relative">
-                  <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                    <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                  </div>
-                  <div class="mt-4 flex justify-between">
-                    <div>
-                      <h3 class="text-sm font-medium text-gray-700">
-                        <a href="/products">
+                <div class=" flex-col border rounded-lg bg-slate-200">
+                  <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                      <% if product.image.attached? %>
+                        <%= image_tag product.image, style: "height: 100%; width: 100%; object-fit: cover; object-position: center;"%>
+                      <% else %>
+                        <img src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg" alt="" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                      <% end %>
+                    </div>
+                    <div class="mt-4 flex justify-between px-4">
+                      <div>
+                        <h3 class="text-sm font-medium text-gray-700">
                           <span aria-hidden="true" class="absolute inset-0"></span>
                           <%= product.name %>
-                        </a>
-                      </h3>
-                      <p class="mt-1 text-sm text-gray-500"><%= product.description %></p>
+                        </h3>
+                        <p class="mt-1 mb-3 text-sm text-gray-500"><%= product.description %></p>
+                        <%# <a href="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a> %>
+                      </div>
+                      <p class=" text-lg font-medium text-gray-1000">$<%= product.price %></p>
                     </div>
-                    <p class="text-sm font-medium text-gray-900">$<%= product.price %></p>
+                  </div>
+                  <div class=" px-4 pb-3 text-blue-600 font-bold">
+                    <%= form_with url: cart_cart_items_path(@cart), method: :post do |form| %>
+                      <%= hidden_field_tag :product_id, product.id %>
+                      <%= form.submit "Add to Cart" %>
+                    <% end %>
                   </div>
                 </div>
               <% end %>
@@ -58,6 +69,69 @@
     </div>
   <% end %>
 <% else %>
-  <h1>Home</h1>
-  <%= link_to 'Sign in', new_user_session_path %>
+  <body class="antialiased bg-slate-200">
+    <div class="max-w-lg mx-auto my-10 bg-white p-8 rounded-xl shadow shadow-slate-300">
+      <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+          <%# <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company"> %>
+          <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Log in to your account</h2>
+        </div>
+        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <%= form_with model: @user, url: session_path(resource_name), html: { class: "space-y-6" } do |form| %>
+            <div>
+              <%= form.label :email, class: "block text-sm font-medium leading-6 text-gray-900" %>
+              <div class="mt-2">
+                <%= form.email_field :email, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm\ ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", autocomplete: "email", required: true %>
+              </div>
+            </div>
+            <div>
+              <%= form.label :password, class: "block text-sm font-medium leading-6 text-gray-900" %>
+              <div class="mt-2">
+                <%= form.password_field :password, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", autocomplete: "current-password", required: true %>
+              </div>
+            </div>
+            <div>
+              <%= form.submit "Log in", class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+            </div>
+          <% end %>
+          <p class="mt-4 text-center text-sm text-gray-500">
+            Forgot your password?
+            <a href="<%= new_password_path(resource_name) %>" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Reset it here</a>.
+          </p>
+          <p class="mt-4 text-center text-sm text-gray-500">
+            Don't have an account yet?
+            <a href="<%= new_registration_path(resource_name) %>" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Sign up</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- 
+<h2>Log in</h2>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "current-password" %>
+  </div>
+
+  <% if devise_mapping.rememberable? %>
+    <div class="field">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Log in" %>
+  </div>
+<% end %>
+
+<%= render "users/shared/links" %>
+-->
 <% end %>

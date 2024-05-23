@@ -12,6 +12,7 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @categorieName = ProductCategory.find_by(product_id: @product.id).category.name
     @variants = Variant.where(product_id: @product.id)
+    @variantOptionValues = VariantOptionValue.where(variant_id: @variants.ids)
   end
 
   def create
@@ -24,7 +25,7 @@ class ProductsController < ApplicationController
       render :new
     end
   end
-  
+
 
   def edit
     @product = Product.find(params[:id])

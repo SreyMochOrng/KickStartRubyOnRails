@@ -1,5 +1,94 @@
+]
 <div class="p-4 sm:ml-64">
-    <h1><%= @optionTypes.count %></h1>
-    <h1><%= @optionValues.count %></h1>
-    <h1><%= @variants.count %></h1>
+  <h1>Option Varinat</h1>
+    <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"><%= link_to 'Create New', new_setting_path  %></button>
+
+  <table class=" w-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          Option Types
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Option Values
+        </th>
+        <th scope="col" class="px-6 py-3 text-right">
+          Edit
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @variantOptionValues.each do |vov| %>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <%= vov.option_value.option_type.name %>
+          </th>
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <%= vov.option_value.value %>
+          </th>
+          <td class="px-6 py-4 text-right">
+            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
+
+
+
+<!--  <div class="sm:hidden">
+    <label for="tabs" class="sr-only">Select your tab</label>
+    <select id="tabs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <option value="profile-tab">Option Types</option>
+      <option value="dashboard-tab">Option Values</option>
+    </select>
+  </div>
+  <ul class="text-sm font-medium text-center text-gray-500 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400" id="tabs-container">
+    <li class="w-full focus-within:z-10">
+      <a href="#profile-tab" class="tab-link inline-block w-full p-4 text-gray-900 bg-gray-100 border-r border-gray-200 dark:border-gray-700 rounded-s-lg focus:ring-4 focus:ring-blue-300 active focus:outline-none dark:bg-gray-700 dark:text-white" aria-current="page">Option Types</a>
+    </li>
+    <li class="w-full focus-within:z-10">
+      <a href="#dashboard-tab" class="tab-link inline-block w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Option Values</a>
+    </li>
+  </ul>
+</div>
+<div class="p-4 sm:ml-64">
+  <div id="profile-tab" class="tab-content">
+    <%= render 'option_type' %>
+  </div>
+  <div id="dashboard-tab" class="tab-content" style="display: none;">
+     <%= render 'option_value' %>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const tabLinks = document.querySelectorAll(".tab-link");
+
+    tabLinks.forEach(function(link) {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute("href").slice(1);
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabContents.forEach(function(content) {
+          if (content.id === targetId) {
+            content.style.display = "block";
+          } else {
+            content.style.display = "none";
+          }
+        });
+
+        tabLinks.forEach(function(tabLink) {
+          tabLink.classList.remove("text-gray-900", "bg-gray-100", "dark:text-white", "dark:bg-gray-700");
+          tabLink.classList.add("text-gray-700", "bg-white", "dark:text-gray-400", "dark:bg-gray-800");
+        });
+
+        this.classList.remove("text-gray-700", "bg-white", "dark:text-gray-400", "dark:bg-gray-800");
+        this.classList.add("text-gray-900", "bg-gray-100", "dark:text-white", "dark:bg-gray-700");
+      });
+    });
+  });
+</script>
+-->
